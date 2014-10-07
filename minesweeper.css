@@ -15,11 +15,60 @@ td {
 	
 }
 
-.notMine {
-	border: 3px solid grey;
-	background-color: grey;
+.\30  {
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
 }
 
-.isMine {
+.\31  {
+	color: blue;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\32  {
+	color: green;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\33  {
+	color: red;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\34  {
+	color: navy;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\35  {
+	color: brown;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\36  {
+	color: cyan;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\37  {
+	color: black;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\38  {
+	color: black;
+	border: 3px solid #cccccc;
+	background-color: #cccccc;
+}
+
+.\39 {
+	color: black;
 	background-color: red;
 }
