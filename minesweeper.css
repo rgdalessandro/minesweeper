@@ -1,0 +1,25 @@
+#mainGrid {
+	color: red;
+}
+
+td {
+	text-align: center;
+
+	border: 3px solid orange;
+	width: 20px;
+	height: 20px;
+	padding: 0px;
+}
+
+.unclicked {
+	
+}
+
+.notMine {
+	border: 3px solid grey;
+	background-color: grey;
+}
+
+.isMine {
+	background-color: red;
+}
