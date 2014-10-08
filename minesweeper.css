@@ -1,74 +1,126 @@
-#mainGrid {
-	color: red;
+#container {
+	text-align: center;
+}
+
+#app {
+	display: inline-block;
+}
+
+h2 {
+	margin: 8px;
+	text-align: center;
+}
+
+table {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	table-layout: fixed;
+	margin: auto;
+	padding: 0px;
+	border-color: black;
+	border-width: 0px;
+	border-style: solid;
+	background-color: #444444;
+}
+
+#form {
+	text-align: center;
+}
+
+tr {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	padding: 0px;
+	margin: 0px;
 }
 
 td {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	table-layout: fixed;
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
+	white-space: nowrap;
 	text-align: center;
-
-	border: 3px solid orange;
 	width: 20px;
 	height: 20px;
 	padding: 0px;
 }
 
-.unclicked {
-	
-}
-
 .\30  {
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\31  {
 	color: blue;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\32  {
 	color: green;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\33  {
 	color: red;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\34  {
 	color: navy;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\35  {
 	color: brown;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\36  {
 	color: cyan;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\37  {
 	color: black;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\38  {
 	color: black;
-	border: 3px solid #cccccc;
+	margin: 1px;
 	background-color: #cccccc;
 }
 
 .\39 {
 	color: black;
 	background-color: red;
+	margin: 1px;
+}
+
+.cover {
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	color: black;
+	z-index: 1;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	background-color: #888888;
+	width: 20px;
+	height: 20px;
+	float: left;
 }

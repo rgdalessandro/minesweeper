@@ -1,9 +1,7 @@
-// testInput function ensures all numbers input by the user are valid for the game
 // grid must be between 8x8 and 40x30
 // max mines must be less than columns*rows
 
 function testInput() { // function to validate user inputs
-	alert("working...");
 	var columns = document.getElementById("x-axis").value;
 	var rows = document.getElementById("y-axis").value;
 	var mines = document.getElementById("mines").value;
@@ -16,18 +14,15 @@ function testInput() { // function to validate user inputs
 		alert("Sorry, please enter a number of mines less than " + (columns*rows));
 	}
 	else {
-		var popup_message = "Your minesweeper grid will be: " 
 		+ document.getElementById("x-axis").value
 		+ " by "
 		+ document.getElementById("y-axis").value;
-		alert(popup_message);
 
 		createGrid(columns, rows, mines);
 	}
 }
 
 function createGrid(columns, rows, mines) { // function to create the grid area
-	alert("activation complete... all systems go!");
 	var $newRow;
 	var $myGrid;
 	var cell;
@@ -42,18 +37,16 @@ function createGrid(columns, rows, mines) { // function to create the grid area
     		cell = document.createElement("td");
         	$newRow.append(cell); // Append an empty <td> element to the row that we are building.
     		cell.setAttribute("id", i + "_" + j)
-    		//cell.setAttribute("class", "unclicked");
     		cell.setAttribute("class", 0);
 
     		$('table').append($newRow);
     	}
-    	alert("row added");
 	}
 
-	generate(columns, rows, mines);
+	generateMines(columns, rows, mines);
 }
 
-function generate(columns, rows, mines) { // function to generate bombs
+function generateMines(columns, rows, mines) { // function to generate bombs
 	var xLocation;
 	var yLocation;
 	var i;
@@ -131,10 +124,32 @@ function bombCount(columns, rows) { // function to generate numbers on non-mine 
 
 				$(cell).attr("class", bombCounter);
 
-				if (!(bombCounter == 0)) { // only if there is an adjacent mine do we display a number
+				if (!(bombCounter == 0)) { // only if there is an adjacent mine do we display a number, otherwise leave blank
 					$(cell).html(bombCounter);
 				}
 			}
+
+			else {
+				$(cell).html("&#9873;");
+			}
 		}
 	}
+	coverGrid(columns, rows);
+}
+
+function coverGrid(columns, rows) { // function to create divs to overlay and block the view of the grid underneath
+	var i, j;
+	var cell, cover;
+
+	for (i=0; i<rows; i++) {
+		for (j=0; j<columns; j++) {
+
+			cell = "#" + i + "_" + j;
+			cover = "d" + i + "_" + j;
+
+			$(cell).append("<div id='" + cover +"' class='cover'></div>")
+		}
+	}	
+
+	$("table").on("contextmenu", function(evt) {evt.preventDefault();});
 }
