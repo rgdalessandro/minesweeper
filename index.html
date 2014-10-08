@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<meta charset='utf-8'>
+	<title>Minesweeper</title>
+	<head>
+		<script src="minesweeper.js" type="text/javascript"></script> <!-- script to create grid and mines -->
+		<script src="jquery-1.11.1.min.js"></script> <!-- jquery library to facilitate user interaction -->
+		<script src="actions.js" type="text/javascript"></script> <!-- jquery script to control user interface -->
+		<link rel="stylesheet" type="text/css" href="minesweeper.css"> 
+	</head>
+	<body>
+		<div id="container">
+			<div id="app">
+				<h2>MINESWEEPER</h2>
+				<div id="form">
+					X-axis: <input type="text" id="x-axis">
+					</br>Y-axis: <input type="text" id="y-axis">
+					</br># of mines: <input type="text" id="mines" size="15">
+					</br><input type="button" onclick="testInput()" value="Create the Minesweeper Grid!"><p>
+				</div>
+				<table></table>		
+			</div>
+		</div>
+	</body>
+</html>
