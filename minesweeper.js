@@ -1,4 +1,5 @@
 // grid must be between 8x8 and 40x30
+// min mines must be at least 1
 // max mines must be less than columns*rows
 
 function testInput() { // function to validate user inputs
@@ -10,14 +11,10 @@ function testInput() { // function to validate user inputs
 	if(columns<8 || rows<8 || columns>40 || rows>30) { // test that grids are within bounds
 		alert("Sorry, please enter a grid size between 8x8 and 40x30.");
 	}
-	else if (mines>=(columns*rows)) { // test that the number of mines does not exceed the grid area
-		alert("Sorry, please enter a number of mines less than " + (columns*rows));
+	else if (mines>=(columns*rows) || mines < 1) { // test that the number of mines does not exceed the grid area and is greater than 1
+		alert("Sorry, please enter a number of mines greater than 0 and less than " + (columns*rows));
 	}
 	else {
-		+ document.getElementById("x-axis").value
-		+ " by "
-		+ document.getElementById("y-axis").value;
-
 		createGrid(columns, rows, mines);
 	}
 }
@@ -36,8 +33,8 @@ function createGrid(columns, rows, mines) { // function to create the grid area
     	for (j=0; j<columns; j++) {
     		cell = document.createElement("td");
         	$newRow.append(cell); // Append an empty <td> element to the row that we are building.
-    		cell.setAttribute("id", i + "_" + j)
-    		cell.setAttribute("class", 0);
+    		cell.setAttribute("id", i + "_" + j) // Sets ID of cell equal to its coordinates
+    		cell.setAttribute("class", 0); // Sets class of empty cell equal to zero
 
     		$('table').append($newRow);
     	}
@@ -57,10 +54,10 @@ function generateMines(columns, rows, mines) { // function to generate bombs
 		yLocation = (Math.floor(Math.random() * columns));
 		cell = "#" + xLocation + "_" + yLocation;
 		if ($(cell).hasClass("9")) {
-			i--;
+			i--; // If randomly chosen cell already has a bomb, go back through this loop without incrementing i
 		}
 		else {
-			$(cell).attr("class", "9");
+			$(cell).attr("class", "9"); // Sets class of randomly chosen bomb cell to 9
 		}
 	}
 
@@ -130,7 +127,7 @@ function bombCount(columns, rows) { // function to generate numbers on non-mine 
 			}
 
 			else {
-				$(cell).html("&#9873;");
+				$(cell).html("&#9873;"); // if cell contains a bomb, it gets filled with a solid flag
 			}
 		}
 	}
@@ -145,11 +142,45 @@ function coverGrid(columns, rows) { // function to create divs to overlay and bl
 		for (j=0; j<columns; j++) {
 
 			cell = "#" + i + "_" + j;
-			cover = "d" + i + "_" + j;
+			cover = "cover_" + i + "_" + j;
 
 			$(cell).append("<div id='" + cover +"' class='cover'></div>")
 		}
 	}	
 
-	$("table").on("contextmenu", function(evt) {evt.preventDefault();});
+	$("table").on("contextmenu", function(evt) {evt.preventDefault();}); // prevent right-click from displaying default context menu
+}
+
+function blankClick(row, column) { // function to automatically clear blank cells
+	top_left = (row - 1) + "_" + (column - 1);
+	top_center = (row - 1) + "_" + column;
+	top_right = (row - 1) + "_" + (column + 1);
+	left = row + "_" + (column - 1);
+	right = row + "_" + (column + 1);
+	bot_left = (row + 1) + "_" + (column - 1);
+	bot_center = (row + 1) + "_" + column;
+	bot_right = (row + 1) + "_" + (column + 1);
+
+	borderSquares = ["top_left","top_center","top_right","left","right","bot_left","bot_center","bot_right"];
+
+	$("#cover_" + row + "_" + column).remove();
+
+	console.log("(" + row + ", " + column + ") BLANK");
+
+	for ( i in borderSquares )
+	{
+		coords = window[borderSquares[i]].split("_");
+		console.log("Checking " + borderSquares[i] + " Cords: (" + coords[0] + ", " + coords[1] + ")" + " Root: (" + row + ", " + column + ")" );
+
+		if ($("#" + window[borderSquares[i]]).hasClass("0") && $("#cover_" + coords[0] + "_" + coords[1]).length ) {
+			console.log(borderSquares[i] + " is Blank");
+			blankClick(parseInt(coords[0]), parseInt(coords[1]));
+		}
+		else
+		{
+			$("#cover_" + window[borderSquares[i]] ).remove();
+		}
+	}
+
+	return;
 }
