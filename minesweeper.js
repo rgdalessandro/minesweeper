@@ -152,14 +152,7 @@ function coverGrid(columns, rows) { // function to create divs to overlay and bl
 }
 
 function blankClick(row, column) { // function to automatically clear blank cells
-	top_left = (row - 1) + "_" + (column - 1);
-	top_center = (row - 1) + "_" + column;
-	top_right = (row - 1) + "_" + (column + 1);
-	left = row + "_" + (column - 1);
-	right = row + "_" + (column + 1);
-	bot_left = (row + 1) + "_" + (column - 1);
-	bot_center = (row + 1) + "_" + column;
-	bot_right = (row + 1) + "_" + (column + 1);
+	
 
 	borderSquares = ["top_left","top_center","top_right","left","right","bot_left","bot_center","bot_right"];
 
@@ -169,18 +162,33 @@ function blankClick(row, column) { // function to automatically clear blank cell
 
 	for ( i in borderSquares )
 	{
-		coords = window[borderSquares[i]].split("_");
+		a = {};
+		a.top_left = (row - 1) + "_" + (column - 1);
+		a.top_center = (row - 1) + "_" + column;
+		a.top_right = (row - 1) + "_" + (column + 1);
+		a.left = row + "_" + (column - 1);
+		a.right = row + "_" + (column + 1);
+		a.bot_left = (row + 1) + "_" + (column - 1);
+		a.bot_center = (row + 1) + "_" + column;
+		a.bot_right = (row + 1) + "_" + (column + 1);
+
+		console.log(a);
+		coords = a[borderSquares[i]].split("_");
 		console.log("Checking " + borderSquares[i] + " Cords: (" + coords[0] + ", " + coords[1] + ")" + " Root: (" + row + ", " + column + ")" );
 
-		if ($("#" + window[borderSquares[i]]).hasClass("0") && $("#cover_" + coords[0] + "_" + coords[1]).length ) {
+		if ($("#" + a[borderSquares[i]]).hasClass("0") && $("#cover_" + coords[0] + "_" + coords[1]).length ) {
 			console.log(borderSquares[i] + " is Blank");
 			blankClick(parseInt(coords[0]), parseInt(coords[1]));
 		}
 		else
 		{
-			$("#cover_" + window[borderSquares[i]] ).remove();
+			$("#cover_" + a[borderSquares[i]] ).remove();
 		}
+
+		a={};
+
 	}
+
 
 	return;
 }
