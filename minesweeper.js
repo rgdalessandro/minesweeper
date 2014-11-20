@@ -11,7 +11,7 @@ function testInput() { // function to validate user inputs
 	if(columns<8 || rows<8 || columns>40 || rows>30) { // test that grids are within bounds
 		alert("Sorry, please enter a grid size between 8x8 and 40x30.");
 	}
-	else if (mines>=(columns*rows) || mines < 1) { // test that the number of mines does not exceed the grid area and is greater than 1
+	else if (mines > (columns*rows) - 1 || mines < 1) { // test that the number of mines does not exceed the grid area and is greater than 1
 		alert("Sorry, please enter a number of mines greater than 0 and less than " + (columns*rows));
 	}
 	else {
@@ -153,16 +153,13 @@ function coverGrid(columns, rows) { // function to create divs to overlay and bl
 
 function blankClick(row, column) { // function to automatically clear blank cells
 	
+	borderSquares = ["top_left","top_center","top_right","left","right","bot_left","bot_center","bot_right"]; // array for iterating through broder squares
 
-	borderSquares = ["top_left","top_center","top_right","left","right","bot_left","bot_center","bot_right"];
-
-	$("#cover_" + row + "_" + column).remove();
-
-	console.log("(" + row + ", " + column + ") BLANK");
+	$("#cover_" + row + "_" + column).remove(); // removes cover for blanks that were not directly clicked on
 
 	for ( i in borderSquares )
 	{
-		a = {};
+		a = {};	// object holding the coordinates to clear and check for blanks
 		a.top_left = (row - 1) + "_" + (column - 1);
 		a.top_center = (row - 1) + "_" + column;
 		a.top_right = (row - 1) + "_" + (column + 1);
@@ -172,23 +169,18 @@ function blankClick(row, column) { // function to automatically clear blank cell
 		a.bot_center = (row + 1) + "_" + column;
 		a.bot_right = (row + 1) + "_" + (column + 1);
 
-		console.log(a);
 		coords = a[borderSquares[i]].split("_");
-		console.log("Checking " + borderSquares[i] + " Cords: (" + coords[0] + ", " + coords[1] + ")" + " Root: (" + row + ", " + column + ")" );
 
 		if ($("#" + a[borderSquares[i]]).hasClass("0") && $("#cover_" + coords[0] + "_" + coords[1]).length ) {
-			console.log(borderSquares[i] + " is Blank");
-			blankClick(parseInt(coords[0]), parseInt(coords[1]));
+			blankClick(parseInt(coords[0]), parseInt(coords[1])); // if bordersquare is a blank and still has a cover, send it through blankClick()
 		}
 		else
 		{
-			$("#cover_" + a[borderSquares[i]] ).remove();
+			$("#cover_" + a[borderSquares[i]] ).remove(); // if not, just clear its cover
 		}
 
-		a={};
+		// a={};
 
 	}
-
-
 	return;
 }

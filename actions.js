@@ -10,15 +10,18 @@ $(document).ready(function() {
 
 		            	switch (activeClass) {
 		            		case '9': 
-		            			$('div').remove('.cover'); // if player uncovers a bomb, all covers dissapear and game stops
+		            			$('div').remove('.cover'); // if player uncovers a bomb, the player loses, all covers dissapear and game stops
 		            			break;
 		            		case '0':
 		            			activeCellCoords = activeCell.split("_");
 		            			blankClick(parseInt(activeCellCoords[0]), parseInt(activeCellCoords[1])); // if player uncovers a blank space, the blankClick function executes
 		            		default:
+		            			if ($( '.cover' ).length == $( '.9' ).length) { // if the number of covers remaining equals the number of bombs, the player wins!
+		            				$( '.cover' ).addClass( 'win' ).removeClass( 'cover' );
+		            				alert('You Win!');
+		            			}
 		            			break;
 		            	}
-		            	
 		            }
 		            break;
 		        case 2: // middle mouse click
