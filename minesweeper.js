@@ -3,9 +3,9 @@
 // max mines must be less than columns*rows
 
 function testInput() { // function to validate user inputs
-	var columns = document.getElementById("x-axis").value;
-	var rows = document.getElementById("y-axis").value;
-	var mines = document.getElementById("mines").value;
+	columns = document.getElementById("x-axis").value;
+	rows = document.getElementById("y-axis").value;
+	mines = document.getElementById("mines").value;
 	
 
 	if(columns<8 || rows<8 || columns>40 || rows>30) { // test that grids are within bounds
@@ -20,11 +20,6 @@ function testInput() { // function to validate user inputs
 }
 
 function createGrid(columns, rows, mines) { // function to create the grid area
-	var $newRow;
-	var $myGrid;
-	var cell;
-	var i, j;
-
 	$('table').html(""); // this line will remove a previous grid when creating a new one
 
 	for (i=0; i<rows; i++) {
@@ -44,11 +39,6 @@ function createGrid(columns, rows, mines) { // function to create the grid area
 }
 
 function generateMines(columns, rows, mines) { // function to generate bombs
-	var xLocation;
-	var yLocation;
-	var i;
-	var cell;
-
 	for (i=0; i<mines; i++) {
 		xLocation = (Math.floor(Math.random() * rows));
 		yLocation = (Math.floor(Math.random() * columns));
@@ -65,18 +55,6 @@ function generateMines(columns, rows, mines) { // function to generate bombs
 }
 
 function bombCount(columns, rows) { // function to generate numbers on non-mine squares
-	var i, j;
-	var cell;
-	var bombCounter;
-	var top_left;
-	var top_center;
-	var top_right;
-	var left;
-	var right;
-	var bot_left;
-	var bot_center;
-	var bot_right;
-
 	for (i=0; i<rows; i++) {
 		for (j=0; j<columns; j++) {
 
@@ -135,9 +113,6 @@ function bombCount(columns, rows) { // function to generate numbers on non-mine 
 }
 
 function coverGrid(columns, rows) { // function to create divs to overlay and block the view of the grid underneath
-	var i, j;
-	var cell, cover;
-
 	for (i=0; i<rows; i++) {
 		for (j=0; j<columns; j++) {
 
@@ -178,9 +153,53 @@ function blankClick(row, column) { // function to automatically clear blank cell
 		{
 			$("#cover_" + a[borderSquares[i]] ).remove(); // if not, just clear its cover
 		}
-
-		// a={};
-
 	}
-	return;
+}
+
+function autoClick(row, column, cellClass) { // function to clear the bordering squares of "saturated" cells
+	borderSquares = ["top_left","top_center","top_right","left","right","bot_left","bot_center","bot_right"]; // array for iterating through broder squares
+	bombCounter = 0;
+
+	for ( i in borderSquares )
+	{
+		b = {};	// object holding the coordinates to surrounding square covers
+		b.top_left = "cover_" + (row - 1) + "_" + (column - 1);
+		b.top_center = "cover_" + (row - 1) + "_" + column;
+		b.top_right = "cover_" + (row - 1) + "_" + (column + 1);
+		b.left = "cover_" + row + "_" + (column - 1);
+		b.right = "cover_" + row + "_" + (column + 1);
+		b.bot_left = "cover_" + (row + 1) + "_" + (column - 1);
+		b.bot_center = "cover_" + (row + 1) + "_" + column;
+		b.bot_right = "cover_" + (row + 1) + "_" + (column + 1);
+
+		if (($( ('#' + b[borderSquares[i]]) ).hasClass('flagged'))) {
+			bombCounter++;
+		}
+	}
+
+	if ( bombCounter == cellClass ) { // the following code only runs if the correct number of mines are flagged
+		for ( j in borderSquares ) {
+			if (!($(('#' + b[borderSquares[j]])).hasClass('flagged'))) {
+				$(('#' + b[borderSquares[j]])).remove(); // if the covered cell has no flag indicator, then the cover is removed
+
+				activeCell = b[borderSquares[j]].substring(6);
+				activeClass = $('#' + activeCell).attr('class');
+
+				switch (activeClass) {
+					case '9': 
+						$('div').remove('.cover'); // if player uncovers a bomb, the player loses, all covers dissapear and game stops
+						break;
+					case '0':
+						activeCellCoords = activeCell.split('_');
+						blankClick(parseInt(activeCellCoords[0]), parseInt(activeCellCoords[1])); // if player uncovers a blank space, the blankClick function executes
+					default:
+						if ($( '.cover' ).length == $( '.9' ).length && activeClass != '9' ) { // if the number of covers remaining equals the number of bombs, the player wins!
+							$( '.cover' ).addClass( 'win' ).removeClass( 'cover' );
+							alert('You Win!');
+						}
+						break;
+				}
+			}
+		}
+	}
 }
